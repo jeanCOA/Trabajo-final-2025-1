@@ -12,7 +12,9 @@ def menu_principal():
         
         print("""
             1. MENU USUARIOS
-            2. MENU PRODUCTOS
+            2. MENU CLIENTES
+            3. MENU PRODUCTOS
+            4. COMPRAR
             3. MENU FACTURAS
             0. PARA SALIR  
             
@@ -24,8 +26,9 @@ def menu_principal():
         
         match(opcion):
             case 1:menu_usuarios()
-            case 2:menu_productos()
-            case 3:()
+            case 2:menu_clientes()
+            case 3:menu_productos()
+            # case 4:menu_factura()
             case 0: 
                 print("*************HASTA LA VISTA BBY***************")
                 activo = False
@@ -144,8 +147,8 @@ def eliminar_usuario():
 
     with open("usuarios.csv", "r") as file:
         for fila in file:
-            lista_fila = fila.strip().split(';')#strip() para eliminar posibles saltos de línea o espacios en los datos leídos
-            if lista_fila[0] != eliminar:  # eliminar es la variable que asigno para que busque el id que deseo eliminar y esto quiere decir si esta fila NO es la del usuario a eliminar
+            lista_fila = fila.strip().split(';')                 #strip() para eliminar posibles saltos de línea o espacios en los datos leídos
+            if lista_fila[0] != eliminar:                         # eliminar es la variable que asigno para que busque el id que deseo eliminar y esto quiere decir si esta fila NO es la del usuario a eliminar
                 lista_copia.append(fila)
                 
             else:
@@ -250,6 +253,185 @@ def eliminar_producto():
         for fila in lista_copia:
             file.write(fila)   
             
-#------------------------------------------------------------------------------------------
+
+
+
+# *********************************************************************************************************************************
+def menu_clientes():
+    activo=True
+    while(activo):
+        os.system("cls")
+        print("************** MENU DE CLIENTES **************")
+        print("""
+            1. PARA AGREGAR CLIENTE
+            2. PARA BUSCAR CLIENTE POR ID
+            3. PARA LISTAR CLIENTE
+            4. PARA ACTUALIZAR CLIENTES
+            5. PARA ELIMINAR CLIENTES
+            0. PARA SALIR                                                             
+            """)
+        opcUsuario=int(input("INGRESE SU ELECCION: "))
+        match (opcUsuario):
+            case 1: agregar_clientes()
+            case 2: buscar_cliente_id()
+            case 3: listar_clientes()
+            case 4: actualizar_clientes()
+            case 5: eliminar_clientes()
+            case 0: 
+                print("*************HASTA LA VISTA BBY***************")
+                activo=False
+            case _:print("OPC INCORRECTA")
+
+lista_cliente = []
+def agregar_clientes():
+    id = int(input("INGRESE SU CC: "))
+    nombre =input("INGRESE SU NOMBRE: ").lower()
+    
+    with open("clientes.csv","a") as file:
+        file.write(f"{id};{nombre}\n")
+        print('CLIENTE AGREGADO CON EXITO')
+
+def buscar_cliente_id():
+    print("************** BUSCAR CLIENTE POR ID*******************")
+    id= input("INGRESE EL ID DEL CLIENTE A BUSCAR: ")
+
+    with open("clientes.csv","r") as file:
+        for fila in file:
+            lista_fila = fila.split(';')
+            
+            if lista_fila[0] == id:
+                print(fila.split(';'))
+                print('ENCONTRAMOS CLIENTE')
+                input("\nPresiona Enter para continuar...")
+                print('\n ')
+                break
+                
+        if lista_fila[0] != id:
+            print('CLIENTE NO ENCONTRADO')
+            input("\nPresiona Enter para continuar...")
+    
+    
+
+
+def listar_clientes():
+    os.system("cls")
+    print('-----------------LISTADO DE CLIENTES-----------')
+    
+    with open("clientes.csv","r") as file:
+        for fila in file:
+            print(fila.split(';'))
+
+    input("\nPresiona Enter para continuar...")
+
+def borrar_informacion_clientes():
+    print('INFORMACION ELIMINADA')
+    with open("clientes.csv","w") as file:
+        file.close       
+
+def actualizar_clientes():
+    print("**************ACTUALIZAR CLIENTES*******************")
+    id= input("INGRESE EL ID DEL CLIENTE QUE DESEA ACTUALIZAR: ")
+    lista_copia = [] #copia de los datos actualizados
+    lista_fila = [] # datos que provienen de usuarios.csv
+    with open("clientes.csv","r") as file:
+        for fila in file:
+            lista_fila = fila.split(';')
+            if lista_fila[0] == id:
+                id= input('INGRESE LA NUEVA ID: ')
+                nombre= input('INGRESE EL NUEVO NOMBRE: ')
+                
+                nueva_fila = id + ';' + nombre + '\n'
+                lista_copia.append(nueva_fila)
+                print('ENCONTRAMOS CLIENTES')
+                input("\nPresiona Enter para continuar...")
+                print('\n ')
+            else:
+                lista_copia.append(fila)
+    borrar_informacion_clientes()
+    for dato in lista_copia:
+        with open("clientes.csv","a") as file:
+            file.write(dato)
+    print("CLIENTES ACTUALIZADO CON EXITO")
+    input("\nPresiona Enter para continuar...")
+    
+def eliminar_clientes():
+    print("************ELIMINAR CLIENTES**************")
+    eliminar = input("INGRESE EL ID DEL CLIENTE QUE DESEA ELIMINAR: ")
+    lista_copia = []
+
+    with open("clientes.csv", "r") as file:
+        for fila in file:
+            lista_fila = fila.strip().split(';')                 #strip() para eliminar posibles saltos de línea o espacios en los datos leídos
+            if lista_fila[0] != eliminar:                         # eliminar es la variable que asigno para que busque el id que deseo eliminar y esto quiere decir si esta fila NO es la del cliente a eliminar
+                lista_copia.append(fila)
+                input("\nPresiona Enter para continuar...")
+                print('\n ')
+                
+            else:
+                print("CLIENTE ELIMINADO")
+
+    with open("clientes.csv", "w") as file:
+        for fila in lista_copia:
+            file.write(fila) 
+
+
 
 menu_principal()
+
+# ******************************************************************************************************************
+# def vender():
+#     print ("**********************INICIAR VENTA***************************")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def menu_facturas():
+    
+#     activo=True
+#     while(activo):
+#         os.system("cls")
+#         print("************** MENU DE FACTURAS **************")
+#         print("""
+#             1.CREAR FACTURA
+#             2.LISTAR FACTURAS
+#             3.BUSCAR FACTURAS POR ID
+#             4.ACTUALIZAR FACTURAS
+#             5.ELIMINAR FACTURAS
+#             0.SALIR    
+#             """)
+#         opcUsuario=int(input("INGRESE SU ELECCION: "))
+#         match (opcUsuario):
+#             case 1: pass
+#             case 2: pass
+#             case 3:pass
+#             case 4:pass
+#             case 0: 
+#                 print("*************HASTA LA VISTA BBY***************")
+#                 activo=False
+#             case _:print("OPC INCORRECTA")
