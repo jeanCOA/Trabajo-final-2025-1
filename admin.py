@@ -55,9 +55,10 @@ def menu_usuarios():
         
         match (opcUsuario):
             case 1: agregar_usuario()
-            case 2: listar_usuario()
-            case 3: actualizar_usuario()
-            case 4: eliminar_usuario()
+            case 2: buscar_usuario_id()
+            case 3: listar_usuario()
+            case 4: actualizar_usuario()
+            case 5: eliminar_usuario()
             case 0: 
                 menu_principal()
                 print("*************HASTA LA VISTA BBY***************")
@@ -74,6 +75,28 @@ def agregar_usuario():
     with open("usuarios.csv","a") as file:
         file.write(f"{id};{nombre};{contraseña};{rol}\n")
         print('USUARIO AGREGADO CON EXITO')
+        
+def buscar_usuario_id():
+    print("************** BUSCAR *******************")
+    id= input("INGRESE EL ID DEL USUARIO A BUSCAR: ")
+    
+    
+    with open("usuarios.csv","r") as file:
+        for fila in file:
+            lista_fila = fila.split(';')
+            
+            if lista_fila[0] == id:
+                print(fila.split(';'))
+                print('ENCONTRAMOS USUARIO')
+                input("\nPresiona Enter para continuar...")
+                print('\n ')
+                break
+        if lista_fila[0] != id:
+            print('Usuario no encontrado')
+            input("\nPresiona Enter para continuar...")
+        
+    
+            
 
 def listar_usuario():
     os.system("cls")
