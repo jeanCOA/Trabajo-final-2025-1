@@ -14,8 +14,8 @@ def menu_principal():
             1. MENU USUARIOS
             2. MENU CLIENTES
             3. MENU PRODUCTOS
-            4. COMPRAR
-            3. MENU FACTURAS
+            4. VENDER
+            5. MENU FACTURAS
             0. PARA SALIR  
             
             
@@ -28,6 +28,7 @@ def menu_principal():
             case 1:menu_usuarios()
             case 2:menu_clientes()
             case 3:menu_productos()
+            case 4:vender()
             # case 4:menu_factura()
             case 0: 
                 print("*************HASTA LA VISTA BBY***************")
@@ -376,7 +377,7 @@ def eliminar_clientes():
 
 
 
-menu_principal()
+
 
 # ******************************************************************************************************************
 # def vender():
@@ -384,12 +385,115 @@ menu_principal()
 
 
 
+# Pedir ID del cliente y validar que existe.
+
+    
+# Generar número de factura automáticamente leyendo el último facturas.csv.
+
+# Permitir al usuario:
+
+# Ver productos disponibles.
+
+# Elegir varios productos (por ID) y cantidades.
+
+# Verificar si hay stock suficiente.
+
+# Calcular subtotales y total.
+
+# Actualizar el stock de los productos en productos.csv.
+
+# Crear un archivo factura_<n>.csv con el detalle de la venta.
+
+# Agregar un resumen en facturas.csv.
+def vender():
+    print("********************** INICIAR VENTA ***************************")
+
+    #--------------------------------------------Pedir cliente y validar si existe
+    cliente_id = input("Ingrese el ID del cliente: ")
+    cliente_nombre = ""
+    with open("clientes.csv", "r") as file:
+        for fila in file:
+            partes = fila.strip().split(";")
+            if partes[0] == cliente_id:
+                cliente_nombre = partes[1]
+                break
+    if cliente_nombre == "":
+        print(" Cliente no encontrado.")
+        return
+
+    # ------------------------------------------Obtener el número de factura
+    factura_id = 1
+    if os.path.exists("facturas.csv"):
+        with open("facturas.csv", "r") as file:
+            lineas = file.readlines()
+            if lineas:
+                ultima = lineas[-1].split(";")[0]
+                factura_id = int(ultima) + 1
+
+    # ---------------------------------------Ingreso de productos a la venta
+    carrito = []
+    total = 0
+    seguir = True
+    while seguir:
+        listar_productos()
+        prod_id = input("Ingrese el ID del producto a vender: ")
+        cantidad = int(input("Cantidad: "))
+
+        encontrado = False
+        productos_actualizados = []
+        with open("productos.csv", "r") as file:
+            for fila in file:
+                partes = fila.strip().split(";")
+                if partes[0] == prod_id:
+                    encontrado = True
+                    tipo = partes[1]
+                    sabor = partes[2]
+                    stock = int(partes[3])
+                    precio = int(partes[4])
+                    if cantidad > stock:
+                        print("No hay suficiente stock.")
+                        return
+                    subtotal = cantidad * precio
+                    carrito.append([prod_id, tipo, sabor, cantidad, precio, subtotal])
+                productos_actualizados.append(partes)
+
+        if not encontrado:
+            print("Producto no encontrado.")
+            return
+
+        continuar = input("¿Desea agregar otro producto? (s/n): ").lower()
+        seguir = continuar == "s"
 
 
+    #------------------------------------------Guardar {id}.csv
+    nombre_archivo_factura = f"{factura_id}.csv"
+    with open(nombre_archivo_factura, "w") as factura:
+        factura.write("producto_id;nombre_producto;sabor;cantidad;precio_unitario;subtotal\n")
+        for item in carrito:
+            factura.write(";".join(str(x) for x in item) + "\n")
+            total += item[5]
+        factura.write(f"TOTAL;;;;;{total}\n")
+
+    #----------------------------------------Agregar a facturas.csv
+    with open("facturas.csv", "a") as resumen:
+        resumen.write(f"{factura_id};{cliente_id};{cliente_nombre};{total}\n")
+
+    #-----------------------------------Actualizar productos.csv con nuevo stock
+    nuevos_datos = []
+    for partes in productos_actualizados:
+        for item in carrito:
+            if partes[0] == item[0]:  # la misma id
+                partes[3] = str(int(partes[3]) - item[3])  # restamos la cantidad
+        nuevos_datos.append(";".join(partes) + "\n")
+
+    with open("productos.csv", "w") as file:
+        file.writelines(nuevos_datos)
+
+    print(f"Venta registrada con éxito. Factura #{factura_id}")
+    input("Presiona Enter para continuar...")
 
 
-
-
+menu_principal()
 
 
 
