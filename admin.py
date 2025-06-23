@@ -1,5 +1,6 @@
 import csv
 import os
+# hola
 # def login():
     
 #     cedula = input("digite su documento de identificacion: ")
@@ -233,7 +234,6 @@ def actualizar_producto():
         with open("productos.csv","a") as file:
             file.write(dato)
         print('ACTUALIZAMOS EL PRODUCTO')
-
 
 
 def eliminar_producto():
