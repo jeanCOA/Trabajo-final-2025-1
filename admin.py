@@ -7,53 +7,57 @@ def login_init():
 
     while inicio:
         os.system("cls")
-        print("************** INICIO DE SESIÓN **************")
-
-        with open('admin.csv', mode='w', newline='') as file:
-            writer = csv.writer(file)
-            # Escribe los datos por defecto
-            writer.writerow(['admin','123','admin'])
-
+        if not os.path.exists('usuarios.csv'):
+            with open('usuarios.csv', mode='a', newline='') as file:
+                writer = csv.writer(file, delimiter=";")
+                writer.writerow(['1','admincito','123','admin'])
+        
+        print("************** INICIO DE SESIÓN **************")       
         usuario = input("Usuario: ").lower()
         contraseña = input("Contraseña: ")
         rol = input("Rol: ").lower()
 
         if rol == "admin":
-            with open("usuario.csv", "r") as file:
+            with open("usuarios.csv", "r") as file:
                 for fila in file:
-                    datos = fila.strip().split(",")
-                    nombre_archivo = datos[0].lower()
-                    clave_archivo = datos[1]
-                    rol_archivo = datos[2]
-                    if usuario == nombre_archivo and contraseña == clave_archivo:
-                        with open("admin.csv","w") as file:
-                            file.close
+                    datos = fila.strip().split(";")            
+                    nombre_archivo = datos[1].lower()
+                    clave_archivo = datos[2]
+                    rol_archivo = datos[3]
+
+                    if usuario == "admincito" and contraseña == "123" and rol == "admin":
+                        with open("usuarios.csv","w") as file:
+                            file.close 
                         print(f"¡Bienvenido, {usuario}!\n")
                         os.system("pause")
                         return True
-        
+                    
+                    if usuario == nombre_archivo and contraseña == clave_archivo and rol == rol_archivo:
+                        print(f"¡Bienvenido, {usuario}!\n")
+                        os.system("pause")
+                        return True
+                    
+            
         elif rol == "empleado":
-            with open("usuario.csv", "r") as file:
+            with open("usuarios.csv", "r") as file:
                 for fila in file:
-                    datos = fila.strip().split(",")
-                    nombre_archivo = datos[0].lower()
+                    datos = fila.strip().split(";")
+                    nombre_archivo = datos[1].lower()
                     clave_archivo = datos[2]
+                    rol_archivo = datos[3]
                     if usuario == nombre_archivo and contraseña == clave_archivo:
-                        with open("usuario.csv","w") as file:
-                            file.close
                         print(f"¡Bienvenido, {usuario}!\n")
                         os.system("pause")
                         return True
                     
         
-        elif rol not in ["admin", "cliente", "usuario"]:
+        elif rol not in ["admin", "empleado"]:
             print("Este rol no existe")
             os.system("pause")
             continue
 
         print("Usuario o contraseña incorrectos.\n")
         os.system("pause")
-
 
 
 def menu_principal():
