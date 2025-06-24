@@ -1,10 +1,72 @@
 import csv
 import os
-# hola
-# def login():
-    
-#     cedula = input("digite su documento de identificacion: ")
-#     contraseña = input("digite su contraseña: ")
+
+def login_init():
+    inicio = True
+
+
+    while inicio:
+        os.system("cls")
+        print("************** INICIO DE SESIÓN **************")
+
+        with open('admin.csv', mode='w', newline='') as file:
+            writer = csv.writer(file)
+            # Escribe los datos por defecto
+            writer.writerow(['admin','123','admin'])
+
+        usuario = input("Usuario: ").lower()
+        contraseña = input("Contraseña: ")
+        rol = input("Rol: ").lower()
+
+        if rol == "admin":
+            with open("admin.csv", "r") as file:
+                for fila in file:
+                    datos = fila.strip().split(",")
+                    nombre_archivo = datos[0].lower()
+                    clave_archivo = datos[1]
+                    if usuario == nombre_archivo and contraseña == clave_archivo:
+                        with open("admin.csv","w") as file:
+                            file.close
+                        print(f"¡Bienvenido, {usuario}!\n")
+                        os.system("pause")
+                        return True
+        
+        elif rol == "usuario":
+            with open("usuario.csv", "r") as file:
+                for fila in file:
+                    datos = fila.strip().split(",")
+                    nombre_archivo = datos[0].lower()
+                    clave_archivo = datos[2]
+                    if usuario == nombre_archivo and contraseña == clave_archivo:
+                        with open("usuario.csv","w") as file:
+                            file.close
+                        print(f"¡Bienvenido, {usuario}!\n")
+                        os.system("pause")
+                        return True
+
+        elif rol == "cliente":
+            with open("cliente.csv", "r") as file:
+                for fila in file:
+                    datos = fila.strip().split(",")
+                    nombre_archivo = datos[0].lower()
+                    clave_archivo = datos[1]
+                    if usuario == nombre_archivo and contraseña == clave_archivo:
+                        with open("cliente.csv","w") as file:
+                            file.close
+                        print(f"¡Bienvenido, {usuario}!\n")
+                        os.system("pause")
+                        return True
+        
+        elif rol not in ["admin", "cliente", "usuario"]:
+            print("Este rol no existe")
+            os.system("pause")
+            continue
+
+        print("Usuario o contraseña incorrectos.\n")
+        os.system("pause")
+
+
+
 def menu_principal():
     activo=True
     while(activo):
@@ -492,8 +554,13 @@ def vender():
     print(f"Venta registrada con éxito. Factura #{factura_id}")
     input("Presiona Enter para continuar...")
 
+while login_init():
+    if True:
+        menu_principal()
+    else:
+        print("Acceso denegado. Vuelve a intentarlo.")
 
-menu_principal()
+login_init()
 
 
 
