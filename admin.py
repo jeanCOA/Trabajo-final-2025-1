@@ -67,16 +67,6 @@ def menu_usuarios():
             case _:print("Opc incorrecta")
 
 
-# lista_empleados=[]
-# def agregar_usuario():
-#     id = int(input("INGRESE SU CC: "))
-#     nombre =input("INGRESE SU NOMBRE: ").lower()
-#     contraseña = (input("INGRESE SU CONTRASEÑA: "))
-#     rol = (input("INGRESAR ROL: "))
-#     with open("usuarios.csv","a") as file:
-#         file.write(f"{id};{nombre};{contraseña};{rol}\n")
-#         print('USUARIO AGREGADO CON EXITO')
-
 def agregar_usuario():
     id = int(input("INGRESE SU CC: "))
     nombre = input("INGRESE SU NOMBRE: ").lower()
@@ -88,14 +78,12 @@ def agregar_usuario():
             for linea in file:
                 datos = linea.strip().split(";")
                 if int(datos[0]) == id:
-                    print(f"ERROR: El ID QUE ACABA DE AGREGAR ES EL '{id}' YA EXISTE.")
+                    print(f"ERROR: El ID QUE ACABA DE AGREGAR ES EL '{id}' Y YA EXISTE.")
                     input("\nPresiona Enter para continuar...")
                     return
     except FileNotFoundError:
         
-        # Si el archivo no existe, se crea más adelante
         pass
-
     with open("usuarios.csv", "a") as file:
         file.write(f"{id};{nombre};{contraseña};{rol}\n")
         print('USUARIO AGREGADO CON ÉXITO')
@@ -208,16 +196,29 @@ def menu_productos():
                 activo=False
             case _:print("Opc incorrecta")
 
-def agregar_producto():
-    id=input("INGRESE EL ID DEL PRODUCTO: ")
-    tipo= input("INGRESE EL TIPO DEL PRODUCTO(BOLIS,PALETA,HELADO CUADRADO,HELADO REDONDO): ")
-    sabor=input("INGRESE EL SABOR(NARANJA,PIÑA,MORA,TRICOLOR,LIMON,ETC): ")
-    stock= input("CANTIDAD DE PRODUCTO: ")
-    precio=input("INGRESE PRECIO DEL PRODUCTO: ")
-    with open("productos.csv","a") as file:
-        file.write(f"{id};{tipo};{sabor};{stock};{precio}\n")
-        print('PRODUCTO AGREGADO CON EXITO')
 
+def agregar_producto():
+    id = input("INGRESE EL ID DEL PRODUCTO: ")
+    tipo = input("INGRESE EL TIPO DEL PRODUCTO (BOLIS, PALETA, HELADO CUADRADO, HELADO REDONDO): ")
+    sabor = input("INGRESE EL SABOR (NARANJA, PIÑA, MORA, TRICOLOR, LIMÓN, ETC): ")
+    stock = input("CANTIDAD DE PRODUCTO: ")
+    precio = input("INGRESE PRECIO DEL PRODUCTO: ")
+
+    try:
+        with open("productos.csv", "r") as file:
+            for linea in file:
+                datos = linea.strip().split(";")
+                if datos[0] == id:
+                    print(f"ERROR: El ID DEL PRODUCTO ES EL  '{id}' YA EXISTE.")
+                    return
+                    input("\nPresiona Enter para continuar...")
+    except FileNotFoundError:
+        pass
+
+    with open("productos.csv", "a") as file:
+        file.write(f"{id};{tipo};{sabor};{stock};{precio}\n")
+        print('PRODUCTO AGREGADO CON ÉXITO')
+# ____________________________________________________________________________________________________
 
 def listar_productos():
     print("******LISTAR LOS PRODUCTOS*****")
