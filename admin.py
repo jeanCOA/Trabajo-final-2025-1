@@ -265,19 +265,17 @@ def menu_clientes():
         print("************** MENU DE CLIENTES **************")
         print("""
             1. PARA AGREGAR CLIENTE
-            2. PARA BUSCAR CLIENTE POR ID
-            3. PARA LISTAR CLIENTE
-            4. PARA ACTUALIZAR CLIENTES
-            5. PARA ELIMINAR CLIENTES
+            2. PARA LISTAR CLIENTE
+            3. PARA ACTUALIZAR CLIENTES
+            4. PARA ELIMINAR CLIENTES
             0. PARA SALIR                                                             
             """)
         opcUsuario=int(input("INGRESE SU ELECCION: "))
         match (opcUsuario):
             case 1: agregar_clientes()
-            case 2: buscar_cliente_id()
-            case 3: listar_clientes()
-            case 4: actualizar_clientes()
-            case 5: eliminar_clientes()
+            case 2: listar_clientes()
+            case 3: actualizar_clientes()
+            case 4: eliminar_clientes()
             case 0: 
                 print("*************HASTA LA VISTA BBY***************")
                 activo=False
@@ -285,31 +283,52 @@ def menu_clientes():
 
 lista_cliente = []
 def agregar_clientes():
-    id = int(input("INGRESE SU CC: "))
-    nombre =input("INGRESE SU NOMBRE: ").lower()
     
-    with open("clientes.csv","a") as file:
-        file.write(f"{id};{nombre}\n")
-        print('CLIENTE AGREGADO CON EXITO')
-
-def buscar_cliente_id():
-    print("************** BUSCAR CLIENTE POR ID*******************")
-    id= input("INGRESE EL ID DEL CLIENTE A BUSCAR: ")
-
-    with open("clientes.csv","r") as file:
-        for fila in file:
-            lista_fila = fila.split(';')
-            
-            if lista_fila[0] == id:
-                print(fila.split(';'))
-                print('ENCONTRAMOS CLIENTE')
-                input("\nPresiona Enter para continuar...")
-                print('\n ')
-                break
+    id = input("INGRESE EL CC DEL CLIENTE: ")
+    cliente_existe = False
+    try:
+        with open("clientes.csv","r") as file:
+            for fila in file:
+                lista_fila = fila.strip().split(';')
                 
-        if lista_fila[0] != id:
-            print('CLIENTE NO ENCONTRADO')
-            input("\nPresiona Enter para continuar...")
+                if lista_fila[0] == id:
+                    print('CLIENTE YA REGISTRADO :/')
+                    cliente_existe = True
+                    input("\nPresiona Enter para continuar...")
+                    print('\n ')
+                    break
+    except FileNotFoundError:
+        # Si el archivo no existe, lo tratamos como vacío (no hay clientes aún)
+        pass
+        
+    if not cliente_existe:
+        nombre =input("INGRESE SU NOMBRE: ").lower()
+        with open("clientes.csv","a") as file:
+            file.write(f"{id};{nombre}\n")
+            
+        print('CLIENTE AGREGADO CON EXITO')
+        
+        input("\nPresiona Enter para continuar...")
+        print("\n")
+
+# def buscar_cliente_id():
+#     print("************** BUSCAR CLIENTE POR ID*******************")
+#     id= input("INGRESE EL ID DEL CLIENTE A BUSCAR: ")
+
+#     with open("clientes.csv","r") as file:
+#         for fila in file:
+#             lista_fila = fila.split(';')
+            
+#             if lista_fila[0] == id:
+#                 print(fila.split(';'))
+#                 print('ENCONTRAMOS CLIENTE')
+#                 input("\nPresiona Enter para continuar...")
+#                 print('\n ')
+#                 break
+                
+#         if lista_fila[0] != id:
+#             print('CLIENTE NO ENCONTRADO')
+#             input("\nPresiona Enter para continuar...")
     
     
 
@@ -365,11 +384,13 @@ def eliminar_clientes():
             lista_fila = fila.strip().split(';')                 #strip() para eliminar posibles saltos de línea o espacios en los datos leídos
             if lista_fila[0] != eliminar:                         # eliminar es la variable que asigno para que busque el id que deseo eliminar y esto quiere decir si esta fila NO es la del cliente a eliminar
                 lista_copia.append(fila)
+                print('Ususario no existe')
                 input("\nPresiona Enter para continuar...")
                 print('\n ')
                 
             else:
                 print("CLIENTE ELIMINADO")
+                input("\nPresiona Enter para continuar...")
 
     with open("clientes.csv", "w") as file:
         for fila in lista_copia:
