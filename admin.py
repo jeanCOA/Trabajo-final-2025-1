@@ -72,19 +72,6 @@ def agregar_usuario():
     os.system("cls")
     print("**************AGREGAR USUARIO*******************")
     id = int(input("INGRESE SU CC: "))
-<<<<<<< HEAD
-    nombre =input("INGRESE SU NOMBRE: ").lower()
-    contraseña = (input("INGRESE SU CONTRASEÑA: "))
-    rol = (input("INGRESAR ROL (ADMIN,EMPLEADO): "))
-    with open("usuarios.csv","a") as file:
-        file.write(f"{id};{nombre};{contraseña};{rol}\n")
-        print('USUARIO AGREGADO CON EXITO')
-        os.system("pause")
-=======
-    nombre = input("INGRESE SU NOMBRE: ").lower()
-    contraseña = input("INGRESE SU CONTRASEÑA: ")
-    rol = input("INGRESAR ROL: ")
-
     try:
         with open("usuarios.csv", "r") as file:
             for linea in file:
@@ -96,11 +83,14 @@ def agregar_usuario():
     except FileNotFoundError:
         
         pass
+    nombre = input("INGRESE SU NOMBRE: ").lower()
+    contraseña = input("INGRESE SU CONTRASEÑA: ")
+    rol = input("INGRESAR ROL: ")
     with open("usuarios.csv", "a") as file:
         file.write(f"{id};{nombre};{contraseña};{rol}\n")
         print('USUARIO AGREGADO CON ÉXITO')
 # __________________________________________________________________________________________
->>>>>>> estebangil
+
         
 def buscar_usuario_id():
     print("************** BUSCAR *******************")
@@ -209,43 +199,29 @@ def menu_productos():
                 activo=False
             case _:print("Opc incorrecta")
 
-<<<<<<< HEAD
-def agregar_producto():
-    print("**************AGREGAR PRODUCTO*******************")
-    id=input("INGRESE EL ID DEL PRODUCTO: ")
-    tipo= input("INGRESE EL TIPO DEL PRODUCTO(BOLIS,PALETA,HELADO CUADRADO,HELADO REDONDO): ").lower()
-    sabor=input("INGRESE EL SABOR(NARANJA,PIÑA,MORA,TRICOLOR,LIMON,ETC): ").lower()
-    stock= input("CANTIDAD DE PRODUCTO: ")
-    precio=input("INGRESE PRECIO DEL PRODUCTO: ")
-    with open("productos.csv","a") as file:
-        file.write(f"{id};{tipo};{sabor};{stock};{precio}\n")
-        print('PRODUCTO AGREGADO CON EXITO')
-        os.system("pause")
-=======
+
 
 def agregar_producto():
     id = input("INGRESE EL ID DEL PRODUCTO: ")
-    tipo = input("INGRESE EL TIPO DEL PRODUCTO (BOLIS, PALETA, HELADO CUADRADO, HELADO REDONDO): ")
-    sabor = input("INGRESE EL SABOR (NARANJA, PIÑA, MORA, TRICOLOR, LIMÓN, ETC): ")
-    stock = input("CANTIDAD DE PRODUCTO: ")
-    precio = input("INGRESE PRECIO DEL PRODUCTO: ")
-
     try:
         with open("productos.csv", "r") as file:
             for linea in file:
                 datos = linea.strip().split(";")
                 if datos[0] == id:
                     print(f"ERROR: El ID DEL PRODUCTO ES EL  '{id}' YA EXISTE.")
-                    input("\nPresiona Enter para continuar...")#carechimba
+                    input("\nPresiona Enter para continuar...")
                     return
     except FileNotFoundError:
         pass 
-
+    tipo = input("INGRESE EL TIPO DEL PRODUCTO (BOLIS, PALETA, HELADO CUADRADO, HELADO REDONDO): ")
+    sabor = input("INGRESE EL SABOR (NARANJA, PIÑA, MORA, TRICOLOR, LIMÓN, ETC): ")
+    stock = input("CANTIDAD DE PRODUCTO: ")
+    precio = input("INGRESE PRECIO DEL PRODUCTO: ")
     with open("productos.csv", "a") as file:
         file.write(f"{id};{tipo};{sabor};{stock};{precio}\n")
         print('PRODUCTO AGREGADO CON ÉXITO')
 # ____________________________________________________________________________________________________
->>>>>>> estebangil
+
 
 def listar_productos():
     print("******LISTAR LOS PRODUCTOS*****")
@@ -574,20 +550,6 @@ menu_principal()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # def menu_facturas():
     
 #     activo=True
@@ -612,14 +574,6 @@ menu_principal()
 #                 print("*************HASTA LA VISTA BBY***************")
 #                 activo=False
 #             case _:print("OPC INCORRECTA")
-
-
-
-
-
-
-
-
 
 
 este_es_el_nuevo_codigooooooooo= 2
