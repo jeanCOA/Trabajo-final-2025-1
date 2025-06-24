@@ -69,13 +69,16 @@ def menu_usuarios():
 
 lista_empleados=[]
 def agregar_usuario():
+    os.system("cls")
+    print("**************AGREGAR USUARIO*******************")
     id = int(input("INGRESE SU CC: "))
     nombre =input("INGRESE SU NOMBRE: ").lower()
     contraseña = (input("INGRESE SU CONTRASEÑA: "))
-    rol = (input("INGRESAR ROL: "))
+    rol = (input("INGRESAR ROL (ADMIN,EMPLEADO): "))
     with open("usuarios.csv","a") as file:
         file.write(f"{id};{nombre};{contraseña};{rol}\n")
         print('USUARIO AGREGADO CON EXITO')
+        os.system("pause")
         
 def buscar_usuario_id():
     print("************** BUSCAR *******************")
@@ -124,7 +127,7 @@ def actualizar_usuario():
             lista_fila = fila.split(';')
             if lista_fila[0] == id:
                 id= input('INGRESE LA NUEVA ID: ')
-                nombre= input('INGRESE EL NUEVO NOMBRE: ')
+                nombre= input('INGRESE EL NUEVO NOMBRE: ').lower()
                 contraseña= input('INGRESE LA NUEVA CONTRASEÑA: ')
                 rol= input('INGRESE EL NUEVO ROL: ')
                 nueva_fila = id + ';' + nombre +';'+ contraseña +';'+ rol + '\n'
@@ -154,7 +157,7 @@ def eliminar_usuario():
                 
             else:
                 print("USUARIO ELIMINADO")
-
+                os.system("pause")
     with open("usuarios.csv", "w") as file:
         for fila in lista_copia:
             file.write(fila)               
@@ -185,15 +188,16 @@ def menu_productos():
             case _:print("Opc incorrecta")
 
 def agregar_producto():
+    print("**************AGREGAR PRODUCTO*******************")
     id=input("INGRESE EL ID DEL PRODUCTO: ")
-    tipo= input("INGRESE EL TIPO DEL PRODUCTO(BOLIS,PALETA,HELADO CUADRADO,HELADO REDONDO): ")
-    sabor=input("INGRESE EL SABOR(NARANJA,PIÑA,MORA,TRICOLOR,LIMON,ETC): ")
+    tipo= input("INGRESE EL TIPO DEL PRODUCTO(BOLIS,PALETA,HELADO CUADRADO,HELADO REDONDO): ").lower()
+    sabor=input("INGRESE EL SABOR(NARANJA,PIÑA,MORA,TRICOLOR,LIMON,ETC): ").lower()
     stock= input("CANTIDAD DE PRODUCTO: ")
     precio=input("INGRESE PRECIO DEL PRODUCTO: ")
     with open("productos.csv","a") as file:
         file.write(f"{id};{tipo};{sabor};{stock};{precio}\n")
         print('PRODUCTO AGREGADO CON EXITO')
-
+        os.system("pause")
 
 def listar_productos():
     print("******LISTAR LOS PRODUCTOS*****")
@@ -219,8 +223,8 @@ def actualizar_producto():
             lista_fila = fila.split(';')
             if lista_fila[0] == id:
                 id= input('INGRESE LA NUEVA ID: ')
-                tipo= input('INGRESE EL NUEVO TIPO: ')
-                sabor= input('INGRESE EL NUEVO SABOR: ')
+                tipo= input('INGRESE EL NUEVO TIPO: ').lower()
+                sabor= input('INGRESE EL NUEVO SABOR: ').lower()
                 stock= input('INGRESE LA NUEVA CANTIDAD: ')
                 precio= input('INGRESE EL NUEVO PRECIO: ')
                 nueva_fila = id + ';' + tipo +';'+ sabor +';'+ stock +';'+precio + '\n'
@@ -283,7 +287,7 @@ def menu_clientes():
 
 lista_cliente = []
 def agregar_clientes():
-    
+    print("***************AGREGAR CLIENTE*******************")
     id = input("INGRESE EL CC DEL CLIENTE: ")
     cliente_existe = False
     try:
@@ -358,7 +362,7 @@ def actualizar_clientes():
             lista_fila = fila.split(';')
             if lista_fila[0] == id:
                 id= input('INGRESE LA NUEVA ID: ')
-                nombre= input('INGRESE EL NUEVO NOMBRE: ')
+                nombre= input('INGRESE EL NUEVO NOMBRE: ').lower()
                 
                 nueva_fila = id + ';' + nombre + '\n'
                 lista_copia.append(nueva_fila)
