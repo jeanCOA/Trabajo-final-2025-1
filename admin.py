@@ -209,8 +209,8 @@ def agregar_producto():
             for linea in file:
                 datos = linea.strip().split(";")
                 if datos[0] == id:
-                    print(f"ERROR: El ID DEL PRODUCTO ES EL  '{id}' YA EXISTE.")
-                    input("\nPresiona Enter para continuar...")#carechimba
+                    print(f"ERROR: El ID DEL PRODUCTO '{id}' YA EXISTE.")
+                    input("\nPresiona Enter para continuar...")
                     return
     except FileNotFoundError:
         pass 
