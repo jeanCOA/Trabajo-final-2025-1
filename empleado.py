@@ -11,11 +11,10 @@ def menu_principal():
         print("************** MENU PRINCIPAL **************")
         
         print("""
-            1. MENU USUARIOS
-            2. MENU CLIENTES
-            3. MENU PRODUCTOS
-            4. VENDER
-            5. MENU FACTURAS
+            1. MENU CLIENTES
+            2. MENU PRODUCTOS
+            3. VENDER
+            4. MENU FACTURAS
             0. PARA SALIR  
             
             
@@ -25,154 +24,16 @@ def menu_principal():
         
         
         match(opcion):
-            case 1:menu_usuarios()
-            case 2:menu_clientes()
-            case 3:menu_productos()
-            case 4:vender()
+            case 1:menu_clientes()
+            case 2:menu_productos()
+            case 3:vender()
             # case 4:menu_factura()
             case 0: 
                 print("*************HASTA LA VISTA BBY***************")
                 activo = False
             case _: print("opc incorrecta")
 
-#---------------------------------CRUD USUARIOS-------------------------------------------------
-def menu_usuarios():
-    
-    activo=True
-    while(activo):
-        os.system("cls")
-        print("************** MENU DE USUARIOS **************")
-        print("""
-            1. PARA AGREGAR USUARIO
-            2. PARA BUSCAR USUARIO POR ID
-            3. PARA LISTAR USUARIOS
-            4. PARA ACTUALIZAR USUARIOS
-            5. PARA ELIMINAR USUARIOS 
-            0. PARA SALIR   
-            
-            """)
-        
-        opcUsuario=int(input("Ingresa tu eleccion: "))
-        
-        match (opcUsuario):
-            case 1: agregar_usuario()
-            case 2: buscar_usuario_id()
-            case 3: listar_usuario()
-            case 4: actualizar_usuario()
-            case 5: eliminar_usuario()
-            case 0: 
-                menu_principal()
-                print("*************HASTA LA VISTA BBY***************")
-                activo=False
-            case _:print("Opc incorrecta")
-
-
-lista_empleados=[]
-def agregar_usuario():
-    os.system("cls")
-    print("**************AGREGAR USUARIO*******************")
-    id = int(input("INGRESE SU CC: "))
-    try:
-        with open("usuarios.csv", "r") as file:
-            for linea in file:
-                datos = linea.strip().split(";")
-                if int(datos[0]) == id:
-                    print(f"ERROR: El ID QUE ACABA DE AGREGAR ES EL '{id}' Y YA EXISTE.")
-                    input("\nPresiona Enter para continuar...")
-                    return
-    except FileNotFoundError:
-        
-        pass
-    nombre = input("INGRESE SU NOMBRE: ").lower()
-    contraseña = input("INGRESE SU CONTRASEÑA: ")
-    rol = input("INGRESAR ROL: ")
-    with open("usuarios.csv", "a") as file:
-        file.write(f"{id};{nombre};{contraseña};{rol}\n")
-        print('USUARIO AGREGADO CON ÉXITO')
-# __________________________________________________________________________________________
-
-        
-def buscar_usuario_id():
-    print("************** BUSCAR *******************")
-    id= input("INGRESE EL ID DEL USUARIO A BUSCAR: ")
-    
-    
-    with open("usuarios.csv","r") as file:
-        for fila in file:
-            lista_fila = fila.split(';')
-            
-            if lista_fila[0] == id:
-                print(fila.split(';'))
-                print('ENCONTRAMOS USUARIO')
-                input("\nPresiona Enter para continuar...")
-                print('\n ')
-                break
-        if lista_fila[0] != id:
-            print('Usuario no encontrado')
-            input("\nPresiona Enter para continuar...")
-        
-    
-            
-
-def listar_usuario():
-    os.system("cls")
-    print('-----------------LISTADO DE USUARIOS-----------')
-    
-    with open("usuarios.csv","r") as file:
-        for fila in file:
-            print(fila.split(';'))
-
-    input("\nPresiona Enter para continuar...")
-    
-def borrar_informacion_usuarios():
-    print('INFORMACION ELIMINADA ')
-    with open("usuarios.csv","w") as file:
-        file.close
-
-def actualizar_usuario():
-    print("**************ACTUALIZAR USUARIOS*******************")
-    id= input("INGRESE EL CC DEL USUARIO QUE DESEA ACTUALIZAR: ")
-    lista_copia = [] #copia de los datos actualizados
-    lista_fila = [] # datos que provienen de usuarios.csv
-    with open("usuarios.csv","r") as file:
-        for fila in file:
-            lista_fila = fila.split(';')
-            if lista_fila[0] == id:
-                id= input('INGRESE LA NUEVA ID: ')
-                nombre= input('INGRESE EL NUEVO NOMBRE: ').lower()
-                contraseña= input('INGRESE LA NUEVA CONTRASEÑA: ')
-                rol= input('INGRESE EL NUEVO ROL: ')
-                nueva_fila = id + ';' + nombre +';'+ contraseña +';'+ rol + '\n'
-                lista_copia.append(nueva_fila)
-                print('ENCONTRAMOS USUARIO')
-                input("\nPresiona Enter para continuar...")
-                print('\n ')
-            else:
-                lista_copia.append(fila)
-    borrar_informacion_usuarios()
-    for dato in lista_copia:
-        with open("usuarios.csv","a") as file:
-            file.write(dato)
-    print("USUARIO ACTUALIZADO CON EXITO")
-    input("\nPresiona Enter para continuar...")
-
-def eliminar_usuario():
-    print("************ELIMINAR USUARIOS**************")
-    eliminar = input("INGRESE EL ID DEL USUARIO QUE DESEA ELIMINAR: ")
-    lista_copia = []
-
-    with open("usuarios.csv", "r") as file:
-        for fila in file:
-            lista_fila = fila.strip().split(';')                 #strip() para eliminar posibles saltos de línea o espacios en los datos leídos
-            if lista_fila[0] != eliminar:                         # eliminar es la variable que asigno para que busque el id que deseo eliminar y esto quiere decir si esta fila NO es la del usuario a eliminar
-                lista_copia.append(fila)
-                
-            else:
-                print("USUARIO ELIMINADO")
-                os.system("pause")
-    with open("usuarios.csv", "w") as file:
-        for fila in lista_copia:
-            file.write(fila)               
+   
 
 # -----------------------------------CRUD PRODUCTOS----------------------------------------------------------------------
 def menu_productos():
@@ -199,28 +60,15 @@ def menu_productos():
                 activo=False
             case _:print("Opc incorrecta")
 
-
-
 def agregar_producto():
-    id = input("INGRESE EL ID DEL PRODUCTO: ")
-    try:
-        with open("productos.csv", "r") as file:
-            for linea in file:
-                datos = linea.strip().split(";")
-                if datos[0] == id:
-                    print(f"ERROR: El ID DEL PRODUCTO ES EL  '{id}' YA EXISTE.")
-                    input("\nPresiona Enter para continuar...")#carechimba
-                    return
-    except FileNotFoundError:
-        pass 
-    tipo = input("INGRESE EL TIPO DEL PRODUCTO (BOLIS, PALETA, HELADO CUADRADO, HELADO REDONDO): ")
-    sabor = input("INGRESE EL SABOR (NARANJA, PIÑA, MORA, TRICOLOR, LIMÓN, ETC): ")
-    stock = input("CANTIDAD DE PRODUCTO: ")
-    precio = input("INGRESE PRECIO DEL PRODUCTO: ")
-    with open("productos.csv", "a") as file:
+    id=input("INGRESE EL ID DEL PRODUCTO: ")
+    tipo= input("INGRESE EL TIPO DEL PRODUCTO(BOLIS,PALETA,HELADO CUADRADO,HELADO REDONDO): ")
+    sabor=input("INGRESE EL SABOR(NARANJA,PIÑA,MORA,TRICOLOR,LIMON,ETC): ")
+    stock= input("CANTIDAD DE PRODUCTO: ")
+    precio=input("INGRESE PRECIO DEL PRODUCTO: ")
+    with open("productos.csv","a") as file:
         file.write(f"{id};{tipo};{sabor};{stock};{precio}\n")
-        print('PRODUCTO AGREGADO CON ÉXITO')
-# ____________________________________________________________________________________________________
+        print('PRODUCTO AGREGADO CON EXITO')
 
 
 def listar_productos():
@@ -247,8 +95,8 @@ def actualizar_producto():
             lista_fila = fila.split(';')
             if lista_fila[0] == id:
                 id= input('INGRESE LA NUEVA ID: ')
-                tipo= input('INGRESE EL NUEVO TIPO: ').lower()
-                sabor= input('INGRESE EL NUEVO SABOR: ').lower()
+                tipo= input('INGRESE EL NUEVO TIPO: ')
+                sabor= input('INGRESE EL NUEVO SABOR: ')
                 stock= input('INGRESE LA NUEVA CANTIDAD: ')
                 precio= input('INGRESE EL NUEVO PRECIO: ')
                 nueva_fila = id + ';' + tipo +';'+ sabor +';'+ stock +';'+precio + '\n'
@@ -311,7 +159,7 @@ def menu_clientes():
 
 lista_cliente = []
 def agregar_clientes():
-    print("***************AGREGAR CLIENTE*******************")
+    
     id = input("INGRESE EL CC DEL CLIENTE: ")
     cliente_existe = False
     try:
@@ -386,7 +234,7 @@ def actualizar_clientes():
             lista_fila = fila.split(';')
             if lista_fila[0] == id:
                 id= input('INGRESE LA NUEVA ID: ')
-                nombre= input('INGRESE EL NUEVO NOMBRE: ').lower()
+                nombre= input('INGRESE EL NUEVO NOMBRE: ')
                 
                 nueva_fila = id + ';' + nombre + '\n'
                 lista_copia.append(nueva_fila)
@@ -550,6 +398,20 @@ menu_principal()
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # def menu_facturas():
     
 #     activo=True
@@ -574,4 +436,3 @@ menu_principal()
 #                 print("*************HASTA LA VISTA BBY***************")
 #                 activo=False
 #             case _:print("OPC INCORRECTA")
-
