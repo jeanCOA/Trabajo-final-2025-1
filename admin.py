@@ -19,11 +19,12 @@ def login_init():
         rol = input("Rol: ").lower()
 
         if rol == "admin":
-            with open("admin.csv", "r") as file:
+            with open("usuario.csv", "r") as file:
                 for fila in file:
                     datos = fila.strip().split(",")
                     nombre_archivo = datos[0].lower()
                     clave_archivo = datos[1]
+                    rol_archivo = datos[2]
                     if usuario == nombre_archivo and contraseña == clave_archivo:
                         with open("admin.csv","w") as file:
                             file.close
@@ -31,7 +32,7 @@ def login_init():
                         os.system("pause")
                         return True
         
-        elif rol == "usuario":
+        elif rol == "empleado":
             with open("usuario.csv", "r") as file:
                 for fila in file:
                     datos = fila.strip().split(",")
@@ -43,19 +44,7 @@ def login_init():
                         print(f"¡Bienvenido, {usuario}!\n")
                         os.system("pause")
                         return True
-
-        elif rol == "cliente":
-            with open("cliente.csv", "r") as file:
-                for fila in file:
-                    datos = fila.strip().split(",")
-                    nombre_archivo = datos[0].lower()
-                    clave_archivo = datos[1]
-                    if usuario == nombre_archivo and contraseña == clave_archivo:
-                        with open("cliente.csv","w") as file:
-                            file.close
-                        print(f"¡Bienvenido, {usuario}!\n")
-                        os.system("pause")
-                        return True
+                    
         
         elif rol not in ["admin", "cliente", "usuario"]:
             print("Este rol no existe")
