@@ -67,15 +67,39 @@ def menu_usuarios():
             case _:print("Opc incorrecta")
 
 
-lista_empleados=[]
+# lista_empleados=[]
+# def agregar_usuario():
+#     id = int(input("INGRESE SU CC: "))
+#     nombre =input("INGRESE SU NOMBRE: ").lower()
+#     contraseña = (input("INGRESE SU CONTRASEÑA: "))
+#     rol = (input("INGRESAR ROL: "))
+#     with open("usuarios.csv","a") as file:
+#         file.write(f"{id};{nombre};{contraseña};{rol}\n")
+#         print('USUARIO AGREGADO CON EXITO')
+
 def agregar_usuario():
     id = int(input("INGRESE SU CC: "))
-    nombre =input("INGRESE SU NOMBRE: ").lower()
-    contraseña = (input("INGRESE SU CONTRASEÑA: "))
-    rol = (input("INGRESAR ROL: "))
-    with open("usuarios.csv","a") as file:
+    nombre = input("INGRESE SU NOMBRE: ").lower()
+    contraseña = input("INGRESE SU CONTRASEÑA: ")
+    rol = input("INGRESAR ROL: ")
+
+    try:
+        with open("usuarios.csv", "r") as file:
+            for linea in file:
+                datos = linea.strip().split(";")
+                if int(datos[0]) == id:
+                    print(f"ERROR: El ID QUE ACABA DE AGREGAR ES EL '{id}' YA EXISTE.")
+                    input("\nPresiona Enter para continuar...")
+                    return
+    except FileNotFoundError:
+        
+        # Si el archivo no existe, se crea más adelante
+        pass
+
+    with open("usuarios.csv", "a") as file:
         file.write(f"{id};{nombre};{contraseña};{rol}\n")
-        print('USUARIO AGREGADO CON EXITO')
+        print('USUARIO AGREGADO CON ÉXITO')
+# __________________________________________________________________________________________
         
 def buscar_usuario_id():
     print("************** BUSCAR *******************")
