@@ -119,15 +119,27 @@ def menu_usuarios():
             case _:print("Opc incorrecta")
 
 
-lista_empleados=[]
 def agregar_usuario():
     id = int(input("INGRESE SU CC: "))
-    nombre =input("INGRESE SU NOMBRE: ").lower()
-    contraseña = (input("INGRESE SU CONTRASEÑA: "))
-    rol = (input("INGRESAR ROL: "))
-    with open("usuarios.csv","a") as file:
+    nombre = input("INGRESE SU NOMBRE: ").lower()
+    contraseña = input("INGRESE SU CONTRASEÑA: ")
+    rol = input("INGRESAR ROL: ")
+
+    try:
+        with open("usuarios.csv", "r") as file:
+            for linea in file:
+                datos = linea.strip().split(";")
+                if int(datos[0]) == id:
+                    print(f"ERROR: El ID QUE ACABA DE AGREGAR ES EL '{id}' Y YA EXISTE.")
+                    input("\nPresiona Enter para continuar...")
+                    return
+    except FileNotFoundError:
+        
+        pass
+    with open("usuarios.csv", "a") as file:
         file.write(f"{id};{nombre};{contraseña};{rol}\n")
-        print('USUARIO AGREGADO CON EXITO')
+        print('USUARIO AGREGADO CON ÉXITO')
+# __________________________________________________________________________________________
         
 def buscar_usuario_id():
     print("************** BUSCAR *******************")
@@ -236,16 +248,29 @@ def menu_productos():
                 activo=False
             case _:print("Opc incorrecta")
 
-def agregar_producto():
-    id=input("INGRESE EL ID DEL PRODUCTO: ")
-    tipo= input("INGRESE EL TIPO DEL PRODUCTO(BOLIS,PALETA,HELADO CUADRADO,HELADO REDONDO): ")
-    sabor=input("INGRESE EL SABOR(NARANJA,PIÑA,MORA,TRICOLOR,LIMON,ETC): ")
-    stock= input("CANTIDAD DE PRODUCTO: ")
-    precio=input("INGRESE PRECIO DEL PRODUCTO: ")
-    with open("productos.csv","a") as file:
-        file.write(f"{id};{tipo};{sabor};{stock};{precio}\n")
-        print('PRODUCTO AGREGADO CON EXITO')
 
+def agregar_producto():
+    id = input("INGRESE EL ID DEL PRODUCTO: ")
+    tipo = input("INGRESE EL TIPO DEL PRODUCTO (BOLIS, PALETA, HELADO CUADRADO, HELADO REDONDO): ")
+    sabor = input("INGRESE EL SABOR (NARANJA, PIÑA, MORA, TRICOLOR, LIMÓN, ETC): ")
+    stock = input("CANTIDAD DE PRODUCTO: ")
+    precio = input("INGRESE PRECIO DEL PRODUCTO: ")
+
+    try:
+        with open("productos.csv", "r") as file:
+            for linea in file:
+                datos = linea.strip().split(";")
+                if datos[0] == id:
+                    print(f"ERROR: El ID DEL PRODUCTO ES EL  '{id}' YA EXISTE.")
+                    input("\nPresiona Enter para continuar...")#carechimba
+                    return
+    except FileNotFoundError:
+        pass 
+
+    with open("productos.csv", "a") as file:
+        file.write(f"{id};{tipo};{sabor};{stock};{precio}\n")
+        print('PRODUCTO AGREGADO CON ÉXITO')
+# ____________________________________________________________________________________________________
 
 def listar_productos():
     print("******LISTAR LOS PRODUCTOS*****")
@@ -316,19 +341,17 @@ def menu_clientes():
         print("************** MENU DE CLIENTES **************")
         print("""
             1. PARA AGREGAR CLIENTE
-            2. PARA BUSCAR CLIENTE POR ID
-            3. PARA LISTAR CLIENTE
-            4. PARA ACTUALIZAR CLIENTES
-            5. PARA ELIMINAR CLIENTES
+            2. PARA LISTAR CLIENTE
+            3. PARA ACTUALIZAR CLIENTES
+            4. PARA ELIMINAR CLIENTES
             0. PARA SALIR                                                             
             """)
         opcUsuario=int(input("INGRESE SU ELECCION: "))
         match (opcUsuario):
             case 1: agregar_clientes()
-            case 2: buscar_cliente_id()
-            case 3: listar_clientes()
-            case 4: actualizar_clientes()
-            case 5: eliminar_clientes()
+            case 2: listar_clientes()
+            case 3: actualizar_clientes()
+            case 4: eliminar_clientes()
             case 0: 
                 print("*************HASTA LA VISTA BBY***************")
                 activo=False
@@ -336,31 +359,52 @@ def menu_clientes():
 
 lista_cliente = []
 def agregar_clientes():
-    id = int(input("INGRESE SU CC: "))
-    nombre =input("INGRESE SU NOMBRE: ").lower()
     
-    with open("clientes.csv","a") as file:
-        file.write(f"{id};{nombre}\n")
-        print('CLIENTE AGREGADO CON EXITO')
-
-def buscar_cliente_id():
-    print("************** BUSCAR CLIENTE POR ID*******************")
-    id= input("INGRESE EL ID DEL CLIENTE A BUSCAR: ")
-
-    with open("clientes.csv","r") as file:
-        for fila in file:
-            lista_fila = fila.split(';')
-            
-            if lista_fila[0] == id:
-                print(fila.split(';'))
-                print('ENCONTRAMOS CLIENTE')
-                input("\nPresiona Enter para continuar...")
-                print('\n ')
-                break
+    id = input("INGRESE EL CC DEL CLIENTE: ")
+    cliente_existe = False
+    try:
+        with open("clientes.csv","r") as file:
+            for fila in file:
+                lista_fila = fila.strip().split(';')
                 
-        if lista_fila[0] != id:
-            print('CLIENTE NO ENCONTRADO')
-            input("\nPresiona Enter para continuar...")
+                if lista_fila[0] == id:
+                    print('CLIENTE YA REGISTRADO :/')
+                    cliente_existe = True
+                    input("\nPresiona Enter para continuar...")
+                    print('\n ')
+                    break
+    except FileNotFoundError:
+        # Si el archivo no existe, lo tratamos como vacío (no hay clientes aún)
+        pass
+        
+    if not cliente_existe:
+        nombre =input("INGRESE SU NOMBRE: ").lower()
+        with open("clientes.csv","a") as file:
+            file.write(f"{id};{nombre}\n")
+            
+        print('CLIENTE AGREGADO CON EXITO')
+        
+        input("\nPresiona Enter para continuar...")
+        print("\n")
+
+# def buscar_cliente_id():
+#     print("************** BUSCAR CLIENTE POR ID*******************")
+#     id= input("INGRESE EL ID DEL CLIENTE A BUSCAR: ")
+
+#     with open("clientes.csv","r") as file:
+#         for fila in file:
+#             lista_fila = fila.split(';')
+            
+#             if lista_fila[0] == id:
+#                 print(fila.split(';'))
+#                 print('ENCONTRAMOS CLIENTE')
+#                 input("\nPresiona Enter para continuar...")
+#                 print('\n ')
+#                 break
+                
+#         if lista_fila[0] != id:
+#             print('CLIENTE NO ENCONTRADO')
+#             input("\nPresiona Enter para continuar...")
     
     
 
@@ -416,11 +460,13 @@ def eliminar_clientes():
             lista_fila = fila.strip().split(';')                 #strip() para eliminar posibles saltos de línea o espacios en los datos leídos
             if lista_fila[0] != eliminar:                         # eliminar es la variable que asigno para que busque el id que deseo eliminar y esto quiere decir si esta fila NO es la del cliente a eliminar
                 lista_copia.append(fila)
+                print('Ususario no existe')
                 input("\nPresiona Enter para continuar...")
                 print('\n ')
                 
             else:
                 print("CLIENTE ELIMINADO")
+                input("\nPresiona Enter para continuar...")
 
     with open("clientes.csv", "w") as file:
         for fila in lista_copia:
@@ -437,8 +483,6 @@ def eliminar_clientes():
 
 
 # Pedir ID del cliente y validar que existe.
-
-    
 # Generar número de factura automáticamente leyendo el último facturas.csv.
 
 # Permitir al usuario:
@@ -595,3 +639,8 @@ login_init()
 #                 print("*************HASTA LA VISTA BBY***************")
 #                 activo=False
 #             case _:print("OPC INCORRECTA")
+
+
+
+
+#nuevo codigo
