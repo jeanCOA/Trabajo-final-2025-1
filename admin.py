@@ -585,3 +585,14 @@ menu_principal()
 #                 print("*************HASTA LA VISTA BBY***************")
 #                 activo=False
 #             case _:print("OPC INCORRECTA")
+
+
+
+
+
+
+
+
+
+
+este_es_el_nuevo_codigooooooooo= 2
