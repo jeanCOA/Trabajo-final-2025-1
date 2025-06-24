@@ -587,10 +587,4 @@ menu_principal()
 
 
 
-
-
-
-
-
-
-este_es_el_nuevo_codigooooooooo= 2
+#nuevo codigo
