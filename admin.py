@@ -501,6 +501,7 @@ def vender():
                     precio = int(partes[4])
                     if cantidad > stock:
                         print("No hay suficiente stock.")
+                        input('presione enter para continuar')
                         return
                     subtotal = cantidad * precio
                     carrito.append([prod_id, tipo, sabor, cantidad, precio, subtotal])
