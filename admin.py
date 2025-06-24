@@ -432,8 +432,6 @@ def eliminar_clientes():
 
 
 # Pedir ID del cliente y validar que existe.
-
-    
 # Generar número de factura automáticamente leyendo el último facturas.csv.
 
 # Permitir al usuario:
@@ -589,10 +587,4 @@ menu_principal()
 
 
 
-
-
-
-
-
-
-este_es_el_nuevo_codigooooooooo= 2
+#nuevo codigo
