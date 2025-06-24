@@ -210,10 +210,10 @@ def agregar_producto():
                 datos = linea.strip().split(";")
                 if datos[0] == id:
                     print(f"ERROR: El ID DEL PRODUCTO ES EL  '{id}' YA EXISTE.")
+                    input("\nPresiona Enter para continuar...")#carechimba
                     return
-                    input("\nPresiona Enter para continuar...")
     except FileNotFoundError:
-        pass
+        pass 
 
     with open("productos.csv", "a") as file:
         file.write(f"{id};{tipo};{sabor};{stock};{precio}\n")
