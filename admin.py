@@ -29,7 +29,7 @@ def menu_principal():
             case 2:menu_clientes()
             case 3:menu_productos()
             case 4:vender()
-            # case 4:menu_factura()
+            case 5:menu_facturas()
             case 0: 
                 print("*************HASTA LA VISTA BBY***************")
                 activo = False
@@ -543,38 +543,123 @@ def vender():
     input("Presiona Enter para continuar...")
 
 
-menu_principal()
 
 
 
 
 
+# ______________________________________CRUD FACTURAS-------------------------------------------
 
 
-# def menu_facturas():
+def menu_facturas():
     
-#     activo=True
-#     while(activo):
-#         os.system("cls")
-#         print("************** MENU DE FACTURAS **************")
-#         print("""
-#             1.CREAR FACTURA
-#             2.LISTAR FACTURAS
-#             3.BUSCAR FACTURAS POR ID
-#             4.ACTUALIZAR FACTURAS
-#             5.ELIMINAR FACTURAS
-#             0.SALIR    
-#             """)
-#         opcUsuario=int(input("INGRESE SU ELECCION: "))
-#         match (opcUsuario):
-#             case 1: pass
-#             case 2: pass
-#             case 3:pass
-#             case 4:pass
-#             case 0: 
-#                 print("*************HASTA LA VISTA BBY***************")
-#                 activo=False
-#             case _:print("OPC INCORRECTA")
+    activo=True
+    while(activo):
+        os.system("cls")
+        print("************** MENU DE FACTURAS **************")
+        print("""
+            1.LISTAR FACTURAS
+            2.BUSCAR FACTURAS POR ID
+            3.ACTUALIZAR FACTURAS
+            4.ELIMINAR FACTURAS
+            0.SALIR    
+            """)
+        opcUsuario=int(input("INGRESE SU ELECCION: "))
+        match (opcUsuario):
+            case 1:listar_facturas()
+            case 2:buscar_factura_id()
+            case 3:actualizar_facturas()
+            case 4:eliminar_factura()
+            case 0: 
+                print("*************HASTA LA VISTA BBY***************")
+                activo=False
+            case _:print("OPC INCORRECTA")
 
 
-#hola
+def listar_facturas():
+    os.system("cls")
+    print('-----------------LISTADO DE FACTURAS-----------')
+    
+    with open("facturas.csv","r") as file:
+        for fila in file:
+            print(fila.split(';'))
+
+    input("\nPresiona Enter para continuar...")
+
+def buscar_factura_id():
+    print("************** BUSCAR *******************")
+    id= input("INGRESE EL ID DEL LA FACTURA A BUSCAR: ")
+    
+    
+    with open("facturas.csv","r") as file:
+        for fila in file:
+            lista_fila = fila.split(';')
+            
+            if lista_fila[0] == id:
+                print(fila.split(';'))
+                print('ENCONTRAMOS LA FACTURA')
+                input("\nPresiona Enter para continuar...")
+                print('\n ')
+                break
+        if lista_fila[0] != id:
+            print(' factura no encontrada')
+            input("\nPresiona Enter para continuar...")
+
+
+def borrar_informacion_facturas():
+    print('INFORMACION ELIMINADA')
+    with open("clientes.csv","w") as file:
+        file.close       
+            
+
+def actualizar_facturas():
+    print("**************ACTUALIZAR FACTURA*******************")
+    id= input("INGRESE EL ID DE LA FACTURA QUE DESEA ACTUALIZAR: ")
+    lista_copia = [] #copia de los datos actualizados
+    lista_fila = [] # datos que provienen de usuarios.csv
+    with open("facturas.csv","r") as file:
+        for fila in file:
+            lista_fila = fila.split(';')
+            if lista_fila[0] == id:
+                id= input('INGRESE LA NUEVA ID: ')
+                
+                
+                nueva_fila = id +  '\n'
+                lista_copia.append(nueva_fila)
+                print('ENCONTRAMOS LA FACTURA')
+                input("\nPresiona Enter para continuar...")
+                print('\n ')
+            else:
+                lista_copia.append(fila)
+    borrar_informacion_facturas()
+    for dato in lista_copia:
+        with open("facturas.csv","a") as file:
+            file.write(dato)
+    print("FACTURA ACTUALIZADA CON EXITO")
+    input("\nPresiona Enter para continuar...")            
+
+
+def eliminar_factura():
+    print("************ELIMINAR FACTURAS**************")
+    eliminar = input("INGRESE EL ID DEL LA FACTURA QUE DESEA ELIMINAR: ")
+    lista_copia = []
+
+    with open("facturas.csv", "r") as file:
+        for fila in file:
+            lista_fila = fila.strip().split(';')                 #strip() para eliminar posibles saltos de línea o espacios en los datos leídos
+            if lista_fila[0] != eliminar:                         # eliminar es la variable que asigno para que busque el id que deseo eliminar y esto quiere decir si esta fila NO es la del usuario a eliminar
+                lista_copia.append(fila)
+                
+            else:
+                print("FACTURA ELIMINADA")
+                os.system("pause")
+    with open("facturas.csv", "w") as file:
+        for fila in lista_copia:
+            file.write(fila)                  
+        
+    
+menu_principal()            
+#ee
+
+
+
