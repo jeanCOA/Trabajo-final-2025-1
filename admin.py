@@ -2,8 +2,8 @@ import csv
 import os
 
 def login_init():
-    inicio = True
 
+    inicio = True
 
     while inicio:
         os.system("cls")
@@ -36,28 +36,11 @@ def login_init():
                         print(f"¡Bienvenido, {usuario}!\n")
                         os.system("pause")
                         return True
-                    
-            
         elif rol == "empleado":
-            with open("usuarios.csv", "r") as file:
-                for fila in file:
-                    datos = fila.strip().split(";")
-                    nombre_archivo = datos[1].lower()
-                    clave_archivo = datos[2]
-                    rol_archivo = datos[3]
-                    if usuario == "admincito" and contraseña == "123" and rol == "admin":
-                        with open("usuarios.csv","w") as file:
-                            file.close 
-                        print(f"¡Bienvenido, {usuario}!\n")
-                        os.system("pause")
-                        return True 
-                    
-                    if usuario == nombre_archivo and contraseña == clave_archivo:
-                        print(f"¡Bienvenido, {usuario}!\n")
-                        os.system("pause")
-                        return True
-                    
-        
+            print("Empleado no puede ingresar a admin")
+            os.system("pause")
+            continue
+
         elif rol not in ["admin", "empleado"]:
             print("Este rol no existe")
             os.system("pause")
@@ -610,11 +593,6 @@ while login_init():
         print("Acceso denegado. Vuelve a intentarlo.")
 
 login_init()
-
-
-
-
-
 
 
 # def menu_facturas():

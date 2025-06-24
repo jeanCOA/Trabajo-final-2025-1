@@ -1,9 +1,52 @@
 import csv
 import os
-# def login():
+
+def login_init():
     
-#     cedula = input("digite su documento de identificacion: ")
-#     contraseña = input("digite su contraseña: ")
+    inicio = True
+
+    while inicio:
+        os.system("cls")
+        print("************** INICIO DE SESIÓN **************")       
+        usuario = input("Usuario: ").lower()
+        contraseña = input("Contraseña: ")
+        rol = input("Rol: ").lower()
+
+        if rol == "admin":
+            with open("usuarios.csv", "r") as file:
+                for fila in file:
+                    datos = fila.strip().split(";")            
+                    nombre_archivo = datos[1].lower()
+                    clave_archivo = datos[2]
+                    rol_archivo = datos[3]
+
+                    if usuario == nombre_archivo and contraseña == clave_archivo and rol == rol_archivo:
+                        print(f"¡Bienvenido, {usuario}!\n")
+                        os.system("pause")
+                        return True
+                    
+        elif rol == "empleado":
+            with open("usuarios.csv", "r") as file:
+                for fila in file:
+                    datos = fila.strip().split(";")
+                    nombre_archivo = datos[1].lower()
+                    clave_archivo = datos[2]
+                    rol_archivo = datos[3]
+                    
+                    if usuario == nombre_archivo and contraseña == clave_archivo and rol == rol_archivo:
+                        print(f"¡Bienvenido, {usuario}!\n")
+                        os.system("pause")
+                        return True
+                    
+        
+        elif rol not in ["admin", "empleado"]:
+            print("Este rol no existe")
+            os.system("pause")
+            continue
+
+        print("Usuario o contraseña incorrectos.\n")
+        os.system("pause")
+
 def menu_principal():
     activo=True
     while(activo):
@@ -390,7 +433,13 @@ def vender():
     input("Presiona Enter para continuar...")
 
 
-menu_principal()
+while login_init():
+    if True:
+        menu_principal()
+    else:
+        print("Acceso denegado. Vuelve a intentarlo.")
+
+login_init()
 
 
 
